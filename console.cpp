@@ -30,39 +30,16 @@ Console::Console() {
 }
 
 bool Console::write_at_cursor(std::string output_string) {
+    unsigned long written;
 
     if (output_string.empty()) return false;
 
-    unsigned long written; //this is so stupid, find out if you can pass nullptr here without crash
-    wchar_t* display_buffer;
-
-    int utf16size = MultiByteToWideChar(CP_UTF8, 0, output_string.data(), output_string.size(), 0, 0);
-
-    display_buffer = new wchar_t[utf16size];
-
-    MultiByteToWideChar(CP_UTF8, 0, output_string.data(), output_string.size(), display_buffer, utf16size);
-
     #ifdef _WIN32
-        bool result = WriteConsoleW(this->stdOHandle, display_buffer, utf16size, &written, NULL);
+        bool result = WriteConsoleA(this->stdOHandle, output_string.data(), output_string.size(), &written, NULL);
     #elif __linux__
     #endif
 
-    delete[] display_buffer;
-
     return result;
-
-}
-
-bool Console::write_at_cursor(wchar_t output_char) {
-
-    unsigned long written;
-
-    #ifdef WIN32
-        bool result = WriteConsoleW(this->stdOHandle, &output_char, 1, &written, NULL);
-    #endif
-
-    return result;
-
 }
 
 #ifdef _WIN32

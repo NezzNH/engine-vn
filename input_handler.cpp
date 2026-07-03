@@ -2,10 +2,6 @@
 
 #ifdef _WIN32
 void InputHandler::push_input_events() {
-    std::string utf8result;
-    std::wstring utf16str;
-    wchar_t winChar;
-
     KeyboardEvent key_event;
     WindowResizeEvent window_resize_event;
     InputEvent generic_event;
@@ -15,18 +11,12 @@ void InputHandler::push_input_events() {
     for (int i = 0; i < this->input_record_count; ++i) {
         switch (this->input_record_array[i].EventType) {
             case KEY_EVENT:
-                winChar = this->input_record_array[i].Event.KeyEvent.uChar.UnicodeChar;
-
-                utf8::utf16to8(winChar, winChar, std::back_inserter(utf8result));
-
-                this->console_pointer->write_at_cursor(winChar);
-
                 q_front = std::make_unique<KeyboardEvent>();
 
                 q_front->type = InputEventType::KEYBOARD;
                 q_front->key_code = this->input_record_array[i].Event.KeyEvent.wVirtualKeyCode;
                 q_front->scan_code = this->input_record_array[i].Event.KeyEvent.wVirtualScanCode;
-                q_front->character_symbol = utf8result;
+                q_front->character_symbol = this->input_record_array[i].Event.KeyEvent.uChar.AsciiChar;
                 q_front->key_down = this->input_record_array[i].Event.KeyEvent.bKeyDown;
 
                 this->input_events.push_front(std::move(q_front));
