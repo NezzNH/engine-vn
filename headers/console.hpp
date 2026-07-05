@@ -10,11 +10,12 @@
 #include "utf8.h"
 #include "utf8/cpp20.h"
 
-
 #ifdef _WIN32
 #include <Windows.h>
 #elif __linux__
 #endif
+
+constexpr uint8_t ANSI_ESCAPE_ATTRIBUTE_COUNT = 6;
 
 class Console {
 private:
@@ -22,17 +23,14 @@ private:
     RectLengths current_dimensions, maximum_dimensions;
 
     #ifdef _WIN32
-
-    HANDLE stdIHandle, stdOHandle, stdErrHandle;
-
+        HANDLE stdIHandle, stdOHandle, stdErrHandle;
     #elif __linux__
     #endif
 public:
     Console();
 
     bool write_at_cursor(std::string);
-    bool write_region();
-    bool write_at_cursor(wchar_t);
+    void write_attribute(uint8_t);
 
     #ifdef _WIN32
         HANDLE get_Ihandle();

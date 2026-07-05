@@ -1,5 +1,25 @@
 #include "console.hpp"
 
+constexpr uint8_t ANSI_ESCAPE_SEQUENCE_COUNT = 15;
+
+std::array<const char*, ANSI_ESCAPE_SEQUENCE_COUNT> ANSI_ESCAPE_SEQUENCES = {
+    "H", //send cursor to home 
+    "2J;3J", //clear screen and scrollback buffer
+    "0m", //reset all stylings
+    "1m", //set bold
+    "22m", //reset bold
+    "2m", //set dim
+    "22m", //reset dim (while they are the same, this was duplicated for symmetry on the caller side in display)
+    "3m", //set italic
+    "23m", //reset italic
+    "4m", //set underline
+    "24m", //reset underline
+    "5m", //set blinking
+    "25m", //reset blinking
+    "9m", //set strikethrough
+    "29m" //reset strikethrough
+};
+
 Console::Console() {
 
     this->cursor_position.y = this->cursor_position.x = 0;
@@ -23,8 +43,22 @@ Console::Console() {
         GetConsoleMode(stdIHandle, &mode);
 
         mode &= ~(ENABLE_MOUSE_INPUT);
+        mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING; //for ANSI escape sequences (styling output and cursor pos)
         SetConsoleMode(stdIHandle, mode);
 
+    #elif __linux__
+    #endif
+}
+
+void Console::write_attribute(uint8_t attribute_index) {
+    if (attribute_index < 0 || attribute_index > ANSI_ESCAPE_SEQUENCE_COUNT) return;
+
+    std::string output = "\033[" + std::string(ANSI_ESCAPE_SEQUENCES[attribute_index]);
+
+    unsigned long blerb;
+
+    #ifdef _WIN32
+        WriteConsoleA(this->stdOHandle, output.data(), output.length(), &blerb, NULL);
     #elif __linux__
     #endif
 }
