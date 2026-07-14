@@ -1,4 +1,4 @@
-#include "game_state.hpp"
+#include "core_state.hpp"
 
 MainMenu::MainMenu() {
     this->display_string = "MAIN MENU";
@@ -20,16 +20,16 @@ Exit::Exit() {
     this->display_string = "Closing...";
 }
 
-GameStateManager::GameStateManager() {
-    this->graph = GameStateGraph();
+CoreStateManager::CoreStateManager() {
+    this->graph = CoreStateGraph();
     this->game_state_stack.push(Exit());
     this->game_state_stack.push(MainMenu());
 
-    this->curr_game_state = this->graph.curr_game_state();
+    this->curr_game_state = this->graph.curr_core_state();
 }
 
-GameStateGraph::GameStateGraph() {
-    GameStateGraphNode root_node, exit_node;
+CoreStateGraph::CoreStateGraph() {
+    CoreStateGraphNode root_node, exit_node;
 
     this->total_states = 2;
     this->current_index = 1;
@@ -46,4 +46,4 @@ GameStateGraph::GameStateGraph() {
     this->nodes[0] = exit_node;
 }
 
-inline GameState GameStateGraph::curr_game_state() {return this->nodes[current_index].node_state;}
+inline CoreState CoreStateGraph::curr_core_state() {return this->nodes[current_index].node_state;}

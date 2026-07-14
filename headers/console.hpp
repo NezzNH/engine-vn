@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "common_types.hpp"
+#include "core_module.hpp"
 #include "utf8.h"
 #include "utf8/cpp20.h"
 
@@ -17,7 +18,7 @@
 
 constexpr uint8_t ANSI_ESCAPE_ATTRIBUTE_COUNT = 6;
 
-class Console {
+class Console : public CoreModule {
 private:
     Point2D cursor_position;
     RectLengths current_dimensions, maximum_dimensions;

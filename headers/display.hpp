@@ -7,12 +7,21 @@
 #include "console.hpp"
 
 namespace DisplayConstants {
-    constexpr uint8_t BOLD_INDEX = 0;
-    constexpr uint8_t DIM_INDEX = 1;
-    constexpr uint8_t ITALIC_INDEX = 2;
-    constexpr uint8_t UNDERLINE_INDEX = 3;
-    constexpr uint8_t BLINKING_INDEX = 4;
-    constexpr uint8_t STRIKETHROUGH_INDEX = 5;
+    constexpr uint8_t CURSOR_HOME_INDEX = 0;
+    constexpr uint8_t CLEAR_SCREEN_INDEX = 1;
+    constexpr uint8_t RESET_ATTRIBUTES_INDEX = 2;
+    constexpr uint8_t SET_BOLD_INDEX = 3;
+    constexpr uint8_t RESET_BOLD_INDEX = 4;
+    constexpr uint8_t SET_DIM_INDEX = 5;
+    constexpr uint8_t RESET_DIM_INDEX = 6;
+    constexpr uint8_t SET_ITALIC_INDEX = 7;
+    constexpr uint8_t RESET_ITALIC_INDEX = 8;
+    constexpr uint8_t SET_UNDERLINE_INDEX = 9;
+    constexpr uint8_t RESET_UNDERLINE_INDEX = 10;
+    constexpr uint8_t SET_BLINKING_INDEX = 11;
+    constexpr uint8_t RESET_BLINKING_INDEX = 12;
+    constexpr uint8_t SET_STRIKETHROUGH_INDEX = 13;
+    constexpr uint8_t RESET_STRIKETHROUGH_INDEX = 14;
 };
 
 struct DisplayCharacter{
@@ -20,7 +29,7 @@ struct DisplayCharacter{
     std::bitset<ANSI_ESCAPE_ATTRIBUTE_COUNT> attributes;
 };
 
-class Display{
+class Display : public CoreModule {
 private:
     Console console;
     std::bitset<ANSI_ESCAPE_ATTRIBUTE_COUNT> current_display_attributes;

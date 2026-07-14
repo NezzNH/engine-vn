@@ -1,11 +1,11 @@
 #include "display.hpp"
 
 void Display::reset_screen() {
-    this->console.write_attribute(1);
-    this->console.write_attribute(0);
+    this->console.write_attribute(DisplayConstants::CURSOR_HOME_INDEX);
+    this->console.write_attribute(DisplayConstants::CLEAR_SCREEN_INDEX);
 
     this->current_display_attributes.reset();
-    this->console.write_attribute(2);
+    this->console.write_attribute(DisplayConstants::RESET_ATTRIBUTES_INDEX);
 }
 
 void Display::write_to_screen(std::vector<DisplayCharacter> characters) {

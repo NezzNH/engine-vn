@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "common_types.hpp"
+#include "core_module.hpp"
 #include "console.hpp"
 #include "utf8.h"
 #include "utf8/cpp20.h"
@@ -45,7 +46,7 @@ struct WindowResizeEvent : public InputEvent {
         RectLengths new_size;
 };
 
-class InputHandler{
+class InputHandler : public CoreModule {
 private:
 
     std::deque<std::unique_ptr<InputEvent>> input_events;
