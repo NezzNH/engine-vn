@@ -60,11 +60,14 @@ private:
     std::deque<CoreEvent> core_event_queue;
     std::vector<CoreDataSpace> data_spaces;
     std::vector<CoreModule> core_modules;
+    std::vector<uint8_t> run_order;
     uint8_t core_data_spaces_limit;
     bool bRunning;
 public:
     bool enqueue_event();
     void start_main_loop();
+
+    CoreModule* find_module_by_id(uint8_t);
 };
 
 #endif

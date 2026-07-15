@@ -10,22 +10,19 @@
 class CoreModule {
 private:
     std::deque<CoreEvent> internal_event_queue;
-    std::vector<uint8_t> senders;
     bool bIsDoingSomething, hasEventsQueued; 
     //intended to be an indicator of multithreaded behavior
 public:
     uint8_t id;
 
-    bool isDoingSomething();
+    CoreEvent hand_off_control_flow();
+    //NOTE this is a very rudementary return mechanism, and will
+    //generally not work for async modules who do not get control flow
+
+    //TODO async methods
+    void push_event();
     void hand_off_event(CoreEvent);
-
-    void add_sender(uint8_t);
-    void add_senders(uint8_t*, uint8_t);
-    void add_senders(std::vector<uint8_t>);
-
-    void remove_sender(uint8_t);
-    void remove_senders(uint8_t*, uint8_t);
-    void remove_senders(std::vector<uint8_t>);
+    bool isDoingSomething();
 
     bool isARecipientOfMessageFrom(uint8_t);
 

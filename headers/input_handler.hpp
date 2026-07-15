@@ -18,6 +18,7 @@
 
 #include "common_types.hpp"
 #include "core_module.hpp"
+#include "core.hpp"
 #include "console.hpp"
 #include "utf8.h"
 #include "utf8/cpp20.h"
@@ -46,6 +47,10 @@ struct WindowResizeEvent : public InputEvent {
         RectLengths new_size;
 };
 
+struct InputHandlerEvent : CoreEvent {
+    InputEvent input_data;
+};
+
 class InputHandler : public CoreModule {
 private:
 
@@ -70,6 +75,8 @@ private:
 public:
     InputHandler();
     InputHandler(Console*);
+
+    CoreEvent hand_off_control_flow();
 
     InputEventType peek_input_type();
 
