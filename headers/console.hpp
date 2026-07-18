@@ -18,7 +18,7 @@
 
 constexpr uint8_t ANSI_ESCAPE_ATTRIBUTE_COUNT = 6;
 
-class Console : public CoreModule {
+class Console { //this will not be a registered module, just an object composed inside of display
 private:
     Point2D cursor_position;
     RectLengths current_dimensions, maximum_dimensions;

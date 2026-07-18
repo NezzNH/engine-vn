@@ -6,20 +6,36 @@
 #include <deque>
 
 #include "core_module.hpp"
+#include "core_state.hpp"
 
 #include "display.hpp"
 #include "console.hpp"
 #include "input_handler.hpp"
 
-enum class CoreEventType : uint8_t {
-    MODULE_MESSAGE,
-    DATA_SPACE_UPDATE
+struct CoreEventContext {
+    uint8_t context_id;
 };
 
 struct CoreEvent {
-    uint8_t sender_id, recipient_id;
-    CoreEventType type;
+    uint16_t event_tag;
+    uint8_t destination_id;
 };
+
+struct CoreEventRegister {
+    std::string name, description;
+    uint16_t event_tag;
+};
+
+struct CoreEventContextRegister {
+    std::vector<CoreEventRegister> events;
+    std::string name, description;
+    uint8_t context_id;
+};
+
+/*struct CoreDataSpaceHeader {
+    uint16_t data_size;
+    uint8_t data_type;
+};*/
 
 /*
 struct DialogueEvent : public CoreEvent {
@@ -37,37 +53,61 @@ it's type is not: dialogueevents will have different possible signals to
 inputevent signals and so on
 */
 
-class CoreDataSpace {
+/*class CoreDataSpace {
 private:
-    std::vector<uint8_t> raw_data;
-    std::vector<uint8_t> participants;
+    std::vector<CoreDataSpaceHeader> headers;
+    std::vector<uint8_t> data;
 public:
     CoreDataSpace();
-    CoreDataSpace(uint8_t*, uint8_t);
-    CoreDataSpace(uint8_t*, uint8_t, uint8_t*, uint8_t);
-    CoreDataSpace(uint8_t*, uint8_t);
 
-    void add_participant(uint8_t);
+    bool is_empty();
+    void clear();
 
-    void set_data(std::vector<uint8_t>);
-    void set_data(uint8_t*, uint8_t);
-    void append_data(std::vector<uint8_t>);
-    void append_data(uint8_t*, uint8_t);
+    bool add_record(CoreDataSpaceHeader, uint8_t*);
+    bool add_record(CoreDataSpaceHeader, std::vector<uint8_t>);
+
+    bool pop_record(uint8_t);
+};*/
+
+class CoreEventRegistry {
+private:
+    std::vector<CoreEventContextRegister> contexts;
+public:
+    CoreEventRegistry() = delete;
+    CoreEventRegistry(std::vector<CoreModule>);
+
+    CoreEventContextRegister return_all_contexts();
+    CoreEventRegister return_all_events_in_context(uint8_t);
+};
+
+class CoreEventQueue {
+private:
+    std::deque<CoreEvent> event_queue;
+    std::vector<uint8_t> associated_contexts;
+    uint8_t id;
+public:
+    CoreEventQueue() = delete;
+    CoreEventQueue(uint8_t);
+
+    uint8_t return_id();
 };
 
 class Core {
 private:
-    std::deque<CoreEvent> core_event_queue;
-    std::vector<CoreDataSpace> data_spaces;
-    std::vector<CoreModule> core_modules;
-    std::vector<uint8_t> run_order;
-    uint8_t core_data_spaces_limit;
     bool bRunning;
-public:
-    bool enqueue_event();
-    void start_main_loop();
+    CoreStateManager state_manager;
 
-    CoreModule* find_module_by_id(uint8_t);
+    std::vector<CoreModule> core_modules;
+
+    CoreEventRegistry event_registry;
+    std::vector<CoreEventQueue> event_queues;
+
+    //uint8_t core_data_spaces_limit;
+    //std::vector<CoreDataSpace> data_spaces;
+public:
+    Core();
+
+    void start_main_loop();
 };
 
 #endif
