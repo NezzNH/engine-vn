@@ -36,3 +36,17 @@ void Display::write_to_screen(std::vector<DisplayCharacter> characters) {
     if (!(output_buffer.empty())) this->console.write_at_cursor(output_buffer);
 
 }
+
+void Display::write_string_to_screen(std::string display_string) {
+    this->console.write_at_cursor(display_string);
+} //TODO remove this function, its just for debugging for now!
+
+CoreEvent Display::hand_off_control_flow(CoreEvent input_event) {
+    switch (input_event.event_tag) {
+        
+    }
+}
+
+void Display::hand_off_event(CoreEvent input_event) {
+
+}

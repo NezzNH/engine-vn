@@ -36,9 +36,14 @@ private:
 public:
     Display();
 
+    CoreEvent hand_off_control_flow(CoreEvent) override;
+
+    void hand_off_event(CoreEvent) override;
+
     void reset_screen();
 
     void write_to_screen(std::vector<DisplayCharacter>);
+    void write_string_to_screen(std::string);
 };
 
 #endif

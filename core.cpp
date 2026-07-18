@@ -1,11 +1,9 @@
 #include "core.hpp"
 
-Core::Core() {
-
+CoreEventRegistry::CoreEventRegistry() {
     
-
 }
 
-void Core::start_main_loop() {
-    bRunning = true;
+Core::Core() {
+
 }

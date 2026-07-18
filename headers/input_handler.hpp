@@ -67,7 +67,7 @@ private:
 
 #ifdef _WIN32
     bool get_console_input();
-    INPUT_RECORD input_record_array[100];
+    INPUT_RECORD input_record_array[50];
 #elif __linux__
     void push_input_event(idk);
 #endif
@@ -76,7 +76,8 @@ public:
     InputHandler();
     InputHandler(Console*);
 
-    CoreEvent hand_off_control_flow();
+    CoreEvent hand_off_control_flow(CoreEvent) override;
+    void hand_off_event(CoreEvent) override;
 
     InputEventType peek_input_type();
 

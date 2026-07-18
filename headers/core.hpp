@@ -12,10 +12,6 @@
 #include "console.hpp"
 #include "input_handler.hpp"
 
-struct CoreEventContext {
-    uint8_t context_id;
-};
-
 struct CoreEvent {
     uint16_t event_tag;
     uint8_t destination_id;
@@ -73,8 +69,10 @@ class CoreEventRegistry {
 private:
     std::vector<CoreEventContextRegister> contexts;
 public:
-    CoreEventRegistry() = delete;
+    CoreEventRegistry();
     CoreEventRegistry(std::vector<CoreModule>);
+
+    void register_new_context(std::string, std::vector<CoreEventRegister>);
 
     CoreEventContextRegister return_all_contexts();
     CoreEventRegister return_all_events_in_context(uint8_t);
