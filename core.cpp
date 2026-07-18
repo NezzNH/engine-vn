@@ -24,15 +24,28 @@ CoreEventRegistry::CoreEventRegistry() {
                 {
                     {1}, {0}
                 }
+            },
+            {
+                {
+                    "create_data_space"
+                },
+                {
+                    "Creates an empty data space with 0 sections. Optionally notifies"
+                }
             }
         },
         "CoreEvents",
         "Events used to signal broad program changes to the core or system specific requests",
         0
     });
-} //TODO this goes without saying, but all of this should be moved externally to a file.
-  //if it quacks like a JSON and walks like a JSON...
-  //shove it in a binary file with no regard for format and figure it out later
+
+//TODO this goes without saying, but all of this should be moved externally to a file.
+//if it quacks like a JSON and walks like a JSON...
+//shove it in a binary file with no regard for format and figure it out later
+
+
+
+}
 
 Core::Core() {
 
