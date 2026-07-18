@@ -8,8 +8,6 @@
 
 #include "common_types.hpp"
 #include "core_module.hpp"
-#include "utf8.h"
-#include "utf8/cpp20.h"
 
 #ifdef _WIN32
 #include <Windows.h>

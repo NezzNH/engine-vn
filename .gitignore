@@ -58,3 +58,4 @@ CMakeUserPresets.json
 
 build/
 .vscode/
+.VSCodeCounter/

@@ -20,8 +20,6 @@
 #include "core_module.hpp"
 #include "core.hpp"
 #include "console.hpp"
-#include "utf8.h"
-#include "utf8/cpp20.h"
 
 enum class InputEventType : uint8_t {
     KEYBOARD,

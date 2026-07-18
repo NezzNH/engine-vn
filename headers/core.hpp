@@ -14,12 +14,12 @@
 
 struct CoreEvent {
     uint16_t event_tag;
-    uint8_t destination_id;
+    uint8_t context;
 };
 
 struct CoreEventRegister {
     std::string name, description;
-    uint16_t event_tag;
+    CoreEvent event;
 };
 
 struct CoreEventContextRegister {
