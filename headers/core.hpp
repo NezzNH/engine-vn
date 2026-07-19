@@ -106,6 +106,7 @@ public:
     Core();
 
     void start_main_loop();
+    void register_module();
 };
 
 #endif

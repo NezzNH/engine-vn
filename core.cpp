@@ -30,7 +30,10 @@ CoreEventRegistry::CoreEventRegistry() {
                     "create_data_space"
                 },
                 {
-                    "Creates an empty data space with 0 sections. Optionally notifies"
+                    "Creates an empty data space with 0 sections."
+                },
+                {
+                    {2}, {0}
                 }
             }
         },
@@ -43,10 +46,15 @@ CoreEventRegistry::CoreEventRegistry() {
 //if it quacks like a JSON and walks like a JSON...
 //shove it in a binary file with no regard for format and figure it out later
 
+}
 
-
+void Core::register_module() {
+    
 }
 
 Core::Core() {
+    this->core_modules.push_back(InputHandler());
+    this->core_modules.push_back(Display());
+
 
 }

@@ -8,6 +8,11 @@
 
 #include "core.hpp"
 
+struct CoreModuleRegister {
+    std::string name, description;
+    
+};
+
 class CoreModule {
 private:
     bool bIsDoingSomething; 
