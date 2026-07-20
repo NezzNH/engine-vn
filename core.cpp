@@ -120,6 +120,6 @@ bool CoreEventQueue::hand_off_control_flow() {
 
 void Core::dispatch_work() {
 
-    if (this->event_queues[this->updated_queue].hand_off_control_flow()) this->take_core_event(null_event_copy);
+    
 
 }

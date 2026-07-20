@@ -109,8 +109,8 @@ private:
     CoreEventRegistry event_registry;
     std::vector<CoreEventQueue> event_queues;
 
-    //uint8_t core_data_spaces_limit;
-    //std::vector<CoreDataSpace> data_spaces;
+    uint8_t core_data_spaces_limit;
+    std::vector<CoreDataSpace> data_spaces;
 public:
     Core();
 
