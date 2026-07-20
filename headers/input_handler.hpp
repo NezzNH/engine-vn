@@ -52,6 +52,7 @@ struct InputHandlerEvent : CoreEvent {
 class InputHandler : public CoreModule {
 private:
 
+    CoreEventRegistry event_registry;
     std::deque<std::unique_ptr<InputEvent>> input_events;
 
     Console* console_pointer;
@@ -73,6 +74,8 @@ private:
 public:
     InputHandler();
     InputHandler(Console*);
+
+    std::vector<CoreEventContextRegister> return_all_events();
 
     CoreEvent hand_off_control_flow(CoreEvent) override;
     void hand_off_event(CoreEvent) override;

@@ -35,6 +35,17 @@ CoreEventRegistry::CoreEventRegistry() {
                 {
                     {2}, {0}
                 }
+            },
+            {
+                {
+                    "unhandled_event_warning"
+                },
+                {
+                    "Is emmited by the core after an event has looked through all possible modules in the queue and not found a recipient."
+                },
+                {
+                    {3}, {0}
+                }
             }
         },
         "CoreEvents",
@@ -48,13 +59,6 @@ CoreEventRegistry::CoreEventRegistry() {
 
 }
 
-void Core::register_module() {
-    
-}
-
 Core::Core() {
-    this->core_modules.push_back(InputHandler());
-    this->core_modules.push_back(Display());
-
 
 }

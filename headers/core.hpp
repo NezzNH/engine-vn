@@ -73,6 +73,12 @@ public:
     CoreEventRegistry(std::vector<CoreModule>);
 
     void register_new_context(std::string, std::vector<CoreEventRegister>);
+    void register_new_event(uint8_t, CoreEvent);
+
+    bool contains_event(CoreEvent);
+    bool contains_context(CoreEventContextRegister);
+
+    std::vector<CoreEventRegister> return_all_events();
 
     CoreEventContextRegister return_all_contexts();
     CoreEventRegister return_all_events_in_context(uint8_t);
@@ -90,11 +96,20 @@ public:
     uint8_t return_id();
 };
 
+class CoreModuleRegistry {
+private:
+    std::vector<CoreModuleRegister> module_registers;
+public:
+    CoreModuleRegistry();
+    CoreModuleRegistry();
+};
+
 class Core {
 private:
     bool bRunning;
     CoreStateManager state_manager;
 
+    CoreModuleRegistry core_module_registry;
     std::vector<CoreModule> core_modules;
 
     CoreEventRegistry event_registry;
@@ -106,7 +121,6 @@ public:
     Core();
 
     void start_main_loop();
-    void register_module();
 };
 
 #endif
