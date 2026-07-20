@@ -22,6 +22,8 @@ private:
 public:
     uint8_t module_id;
 
+    bool isSubscribedToEvent(CoreEvent);
+
     virtual CoreEvent hand_off_control_flow(CoreEvent) = 0;
 
     //TODO async methods

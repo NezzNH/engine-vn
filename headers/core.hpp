@@ -13,8 +13,8 @@
 #include "input_handler.hpp"
 
 struct CoreEvent {
-    uint16_t event_tag;
-    uint8_t context;
+    uint16_t event_id, dataspace_header_id;
+    uint8_t context, dataspace_id;
 };
 
 struct CoreEventRegister {
@@ -28,28 +28,12 @@ struct CoreEventContextRegister {
     uint8_t context_id;
 };
 
-/*struct CoreDataSpaceHeader {
+struct CoreDataSpaceHeader {
     uint16_t data_size;
     uint8_t data_type;
-};*/
-
-/*
-struct DialogueEvent : public CoreEvent {
-public:
-    DialogueEventSignal signal_type;
 };
 
-example of how to use this for specific module communication
-
-every single event that inherits from coreevent and thus uses this mechanism
-MUST have a signal_type as a field in the derived class
-
-the justficiation is that, even though this field is common with all CoreEvent classes
-it's type is not: dialogueevents will have different possible signals to
-inputevent signals and so on
-*/
-
-/*class CoreDataSpace {
+class CoreDataSpace {
 private:
     std::vector<CoreDataSpaceHeader> headers;
     std::vector<uint8_t> data;
@@ -63,7 +47,7 @@ public:
     bool add_record(CoreDataSpaceHeader, std::vector<uint8_t>);
 
     bool pop_record(uint8_t);
-};*/
+};
 
 class CoreEventRegistry {
 private:
@@ -86,14 +70,23 @@ public:
 
 class CoreEventQueue {
 private:
+    std::vector<CoreModule*> modules; 
+    std::vector<CoreEvent> subscribed_events;
     std::deque<CoreEvent> event_queue;
-    std::vector<uint8_t> associated_contexts;
+    Core* core_ref;
     uint8_t id;
 public:
     CoreEventQueue() = delete;
     CoreEventQueue(uint8_t);
-
     uint8_t return_id();
+
+    void subscribe_to_event(CoreEvent);
+    void subscribe_to_events(std::vector<CoreEvent>);
+    bool is_subscribed_to_event(CoreEvent);
+
+    bool enqueue_event(CoreEvent);
+
+    bool hand_off_control_flow();
 };
 
 class CoreModuleRegistry {
@@ -108,6 +101,7 @@ class Core {
 private:
     bool bRunning;
     CoreStateManager state_manager;
+    uint8_t updated_queue;
 
     CoreModuleRegistry core_module_registry;
     std::vector<CoreModule> core_modules;
@@ -120,7 +114,10 @@ private:
 public:
     Core();
 
-    void start_main_loop();
+    void main_loop();
+    void route_event(CoreEvent);
+    void take_core_event(CoreEvent);
+    void dispatch_work();
 };
 
 #endif
