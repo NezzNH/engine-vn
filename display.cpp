@@ -42,7 +42,7 @@ void Display::write_string_to_screen(std::string display_string) {
 } //TODO remove this function, its just for debugging for now!
 
 CoreEvent Display::hand_off_control_flow(CoreEvent input_event) {
-    switch (input_event.event_tag) {
+    switch (input_event.event_id) {
         
     }
 }
@@ -50,3 +50,12 @@ CoreEvent Display::hand_off_control_flow(CoreEvent input_event) {
 void Display::hand_off_event(CoreEvent input_event) {
 
 }
+
+Display::Display() {
+    this->event_registry = CoreEventRegistry(1);
+    this->event_registry.register_new_event(0, 1, "Clear display", "Clears the display");
+    this->event_registry.register_new_event(1, 1, "Update output", "Updates the output buffer and draws");
+    this->event_registry.register_new_event(2, 1, "Window Resize", "Window resize happened");
+}
+
+CoreEventRegistry Display::get_event_registry() {return this->event_registry;} // TODO make inline

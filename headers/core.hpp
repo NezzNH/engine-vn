@@ -54,13 +54,12 @@ private:
     std::vector<CoreEventContextRegister> contexts;
 public:
     CoreEventRegistry();
-    CoreEventRegistry(std::vector<CoreModule>);
+    CoreEventRegistry(uint8_t);
 
-    void register_new_context(std::string, std::vector<CoreEventRegister>);
-    void register_new_event(uint8_t, CoreEvent);
+    void register_new_event(uint8_t, uint8_t, std::string, std::string);
 
     bool contains_event(CoreEvent);
-    bool contains_context(CoreEventContextRegister);
+    bool contains_context(uint8_t);
 
     std::vector<CoreEventRegister> return_all_events();
 
@@ -86,7 +85,7 @@ public:
 
     bool enqueue_event(CoreEvent);
 
-    bool hand_off_control_flow();
+    CoreEvent hand_off_control_flow();
 };
 
 class CoreModuleRegistry {
@@ -117,7 +116,7 @@ public:
     void main_loop();
     void route_event(CoreEvent);
     void take_core_event(CoreEvent);
-    void dispatch_work();
+    CoreEvent dispatch_work(uint8_t);
 };
 
 #endif

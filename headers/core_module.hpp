@@ -31,6 +31,8 @@ public:
     bool isDoingSomething();
 
     CoreModule();
+
+    CoreEventRegistry get_event_registry();
 };
 
 #endif

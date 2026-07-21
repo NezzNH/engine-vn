@@ -59,6 +59,17 @@ CoreEventRegistry::CoreEventRegistry() {
                 {
                     {4}, {0}
                 }
+            },
+            {
+                {
+                    "unknown_event"
+                },
+                {
+                    "Event not present in registry!"
+                },
+                {
+                    {5}, {0}
+                }
             }
         },
         "CoreEvents",
@@ -75,19 +86,21 @@ Core::Core() {
 
 }
 
-void Core::main_loop() {
-
-}
-
 void Core::route_event(CoreEvent input_event) {
 
     if (input_event.context == 0) this->take_core_event(input_event);
 
-    for (uint8_t i = 0; i < this->event_queues.size(); ++i) {
-        if (this->event_queues[i].is_subscribed_to_event(input_event)) {
-            this->event_queues[i].enqueue_event(input_event);
-            this->updated_queue = i;
-            return;
+    if (!(this->event_registry.contains_event(input_event)))  {
+       this->take_core_event({{5},{0},{0},{0}});
+       return;
+    }
+    else {
+        for (uint8_t i = 0; i < this->event_queues.size(); ++i) {
+            if (this->event_queues[i].is_subscribed_to_event(input_event)) {
+                this->event_queues[i].enqueue_event(input_event);
+                this->updated_queue = i;
+                return;
+            }
         }
     }
 
@@ -106,20 +119,42 @@ bool CoreEventQueue::enqueue_event(CoreEvent input_event) {
 
 }
 
-bool CoreEventQueue::hand_off_control_flow() {
+CoreEvent CoreEventQueue::hand_off_control_flow() {
     
     for (uint8_t i = 0; i < this->modules.size(); ++i)
         if (this->modules[i]->isSubscribedToEvent(this->event_queue.front())) {
-            this->modules[i]->hand_off_control_flow(this->event_queue.front());
-            return true;
+           return this->modules[i]->hand_off_control_flow(this->event_queue.front());
         }
 
-    return false;
-
+    return null_event_copy;
 }
 
-void Core::dispatch_work() {
+CoreEvent Core::dispatch_work(uint8_t queue_id) {
+    return this->event_queues[queue_id].hand_off_control_flow();
+}
 
-    
+void Core::main_loop() {
 
+    CoreEvent current_event; //TODO goes without saying, this will have to be a better return method later on
+    while (this->bRunning) {
+        this->route_event(current_event);
+        current_event = this->dispatch_work(this->updated_queue);
+    }
+}
+
+CoreEventRegistry::CoreEventRegistry(uint8_t context_id) {
+    this->contexts.push_back({{}, {""}, {""}, {context_id}});
+}
+
+void CoreEventRegistry::register_new_event(uint8_t event_id, uint8_t context_id, std::string event_name, std::string event_description) {
+    if (!(this->contains_context(context_id))) return; //TODO return error by pushing to core
+
+    uint8_t context_index;
+
+    for (int i = 0; i < this->contexts.size(); ++i) {
+        if (context_id == contexts[i].context_id) {
+            context_index = i;
+            break;
+        }
+    }
 }
