@@ -1,87 +1,5 @@
 #include "core.hpp"
 
-CoreEvent null_event_copy = {{0}, {0}, {0}, {0}};
-
-CoreEventRegistry::CoreEventRegistry() {
-    this->contexts.push_back({
-        {
-            {
-                {
-                    "null_event"
-                },
-                {
-                    "Is emmited whenever an event couldn't be emmited."
-                },
-                {
-                    {0}, {0}
-                }
-            },
-            {
-                {
-                    "force_shutdown"
-                },
-                {
-                    "Quits the entire program immediately without any exit procedure. Loses all data."
-                },
-                {
-                    {1}, {0}
-                }
-            },
-            {
-                {
-                    "change_state"
-                },
-                {
-                    "Makes the core change program states, constructing new modules where necessary."
-                },
-                {
-                    {2}, {0}
-                }
-            },
-            {
-                {
-                    "create_data_space"
-                },
-                {
-                    "Creates an empty data space with 0 sections."
-                },
-                {
-                    {3}, {0}
-                }
-            },
-            {
-                {
-                    "unhandled_event_warning"
-                },
-                {
-                    "Is emmited by the core after an event has looked through all possible modules in the queue and not found a recipient."
-                },
-                {
-                    {4}, {0}
-                }
-            },
-            {
-                {
-                    "unknown_event"
-                },
-                {
-                    "Event not present in registry!"
-                },
-                {
-                    {5}, {0}
-                }
-            }
-        },
-        "CoreEvents",
-        "Events used to signal broad program changes to the core or system specific requests",
-        0
-    });
-
-//TODO this goes without saying, but all of this should be moved externally to a file.
-//if it quacks like a JSON and walks like a JSON...
-//shove it in a binary file with no regard for format and figure it out later
-}
-
 Core::Core() {
 
 }
@@ -104,7 +22,7 @@ void Core::route_event(CoreEvent input_event) {
         }
     }
 
-    this->take_core_event(null_event_copy);
+    //this->take_core_event(null_event_copy);
 
 }
 
@@ -125,8 +43,7 @@ CoreEvent CoreEventQueue::hand_off_control_flow() {
         if (this->modules[i]->isSubscribedToEvent(this->event_queue.front())) {
            return this->modules[i]->hand_off_control_flow(this->event_queue.front());
         }
-
-    return null_event_copy;
+    return {};
 }
 
 CoreEvent Core::dispatch_work(uint8_t queue_id) {
@@ -142,8 +59,10 @@ void Core::main_loop() {
     }
 }
 
-CoreEventRegistry::CoreEventRegistry(uint8_t context_id) {
-    this->contexts.push_back({{}, {""}, {""}, {context_id}});
+CoreEventRegistry::CoreEventRegistry(uint8_t context_id, std::string context_name, std::string context_description) {
+    CoreEventContext context;
+    context.id = context_id;
+    this->context_registers.push_back({{context}, {}, {context_name}, {context_description}});
 }
 
 void CoreEventRegistry::register_new_event(uint8_t event_id, uint8_t context_id, std::string event_name, std::string event_description) {
@@ -151,10 +70,15 @@ void CoreEventRegistry::register_new_event(uint8_t event_id, uint8_t context_id,
 
     uint8_t context_index;
 
-    for (int i = 0; i < this->contexts.size(); ++i) {
-        if (context_id == contexts[i].context_id) {
+    for (int i = 0; i < this->context_registers.size(); ++i) {
+        if (context_id == context_registers[i].context.id) {
             context_index = i;
             break;
         }
     }
+
+    this->context_registers[context_index].context.events.push_back({{},{},{},{}});
+    this->context
+
+
 }

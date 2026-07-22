@@ -17,15 +17,38 @@ struct CoreEvent {
     uint8_t context, dataspace_id;
 };
 
+struct CoreEventContext {
+    std::vector<CoreEvent> events;
+    uint8_t id;
+};
+
 struct CoreEventRegister {
     std::string name, description;
     CoreEvent event;
 };
 
 struct CoreEventContextRegister {
-    std::vector<CoreEventRegister> events;
+    CoreEventContext context;
+    std::vector<CoreEventRegister> event_registers;
     std::string name, description;
-    uint8_t context_id;
+};
+
+class CoreEventRegistry {
+private:
+    std::vector<CoreEventContextRegister> context_registers;
+public:
+    CoreEventRegistry();
+    CoreEventRegistry(uint8_t, std::string, std::string);
+
+    void register_new_event(uint8_t, uint8_t, std::string, std::string);
+
+    bool contains_event(CoreEvent);
+    bool contains_context(uint8_t);
+
+    std::vector<CoreEventRegister> return_all_events();
+
+    CoreEventContextRegister return_all_contexts();
+    CoreEventRegister return_all_events_in_context(uint8_t);
 };
 
 struct CoreDataSpaceHeader {
@@ -47,24 +70,6 @@ public:
     bool add_record(CoreDataSpaceHeader, std::vector<uint8_t>);
 
     bool pop_record(uint8_t);
-};
-
-class CoreEventRegistry {
-private:
-    std::vector<CoreEventContextRegister> contexts;
-public:
-    CoreEventRegistry();
-    CoreEventRegistry(uint8_t);
-
-    void register_new_event(uint8_t, uint8_t, std::string, std::string);
-
-    bool contains_event(CoreEvent);
-    bool contains_context(uint8_t);
-
-    std::vector<CoreEventRegister> return_all_events();
-
-    CoreEventContextRegister return_all_contexts();
-    CoreEventRegister return_all_events_in_context(uint8_t);
 };
 
 class CoreEventQueue {
