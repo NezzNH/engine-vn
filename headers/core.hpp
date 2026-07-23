@@ -7,49 +7,12 @@
 
 #include "core_module.hpp"
 #include "core_state.hpp"
+#include "core_event.hpp"
+#include "core_event_queue.hpp"
 
 #include "display.hpp"
 #include "console.hpp"
 #include "input_handler.hpp"
-
-struct CoreEvent {
-    uint16_t event_id, dataspace_header_id;
-    uint8_t context, dataspace_id;
-};
-
-struct CoreEventContext {
-    std::vector<CoreEvent> events;
-    uint8_t id;
-};
-
-struct CoreEventRegister {
-    std::string name, description;
-    CoreEvent event;
-};
-
-struct CoreEventContextRegister {
-    CoreEventContext context;
-    std::vector<CoreEventRegister> event_registers;
-    std::string name, description;
-};
-
-class CoreEventRegistry {
-private:
-    std::vector<CoreEventContextRegister> context_registers;
-public:
-    CoreEventRegistry();
-    CoreEventRegistry(uint8_t, std::string, std::string);
-
-    void register_new_event(uint8_t, uint8_t, std::string, std::string);
-
-    bool contains_event(CoreEvent);
-    bool contains_context(uint8_t);
-
-    std::vector<CoreEventRegister> return_all_events();
-
-    CoreEventContextRegister return_all_contexts();
-    CoreEventRegister return_all_events_in_context(uint8_t);
-};
 
 struct CoreDataSpaceHeader {
     uint16_t data_size;
@@ -72,26 +35,6 @@ public:
     bool pop_record(uint8_t);
 };
 
-class CoreEventQueue {
-private:
-    std::vector<CoreModule*> modules; 
-    std::vector<CoreEvent> subscribed_events;
-    std::deque<CoreEvent> event_queue;
-    Core* core_ref;
-    uint8_t id;
-public:
-    CoreEventQueue() = delete;
-    CoreEventQueue(uint8_t);
-    uint8_t return_id();
-
-    void subscribe_to_event(CoreEvent);
-    void subscribe_to_events(std::vector<CoreEvent>);
-    bool is_subscribed_to_event(CoreEvent);
-
-    bool enqueue_event(CoreEvent);
-
-    CoreEvent hand_off_control_flow();
-};
 
 class CoreModuleRegistry {
 private:
@@ -103,7 +46,7 @@ public:
 
 class Core {
 private:
-    bool bRunning;
+    bool isRunning;
     CoreStateManager state_manager;
     uint8_t updated_queue;
 

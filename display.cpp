@@ -52,10 +52,5 @@ void Display::hand_off_event(CoreEvent input_event) {
 }
 
 Display::Display() {
-    this->event_registry = CoreEventRegistry(1);
-    this->event_registry.register_new_event(0, 1, "Clear display", "Clears the display");
-    this->event_registry.register_new_event(1, 1, "Update output", "Updates the output buffer and draws");
-    this->event_registry.register_new_event(2, 1, "Window Resize", "Window resize happened");
+    
 }
-
-CoreEventRegistry Display::get_event_registry() {return this->event_registry;} // TODO make inline

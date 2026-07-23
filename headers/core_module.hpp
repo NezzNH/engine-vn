@@ -9,7 +9,7 @@
 #include "core.hpp"
 
 struct CoreModuleRegister{
-    CoreEventRegistry associated_contexts;
+    CoreEventRegistry module_events;
     std::string name, description;
     uint8_t module_id;
 };
