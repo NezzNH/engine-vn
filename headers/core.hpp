@@ -36,6 +36,9 @@ public:
     void route_event(CoreEvent);
     void take_core_event(CoreEvent);
     CoreEvent dispatch_work(uint8_t);
+
+    CoreDataSpace* get_data_space();
+    
 };
 
 #endif

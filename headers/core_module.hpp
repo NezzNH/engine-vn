@@ -26,6 +26,9 @@ class CoreModule {
 private:
     uint8_t module_id, module_type_id;
 
+    CoreDataSpace* data_space_ref;
+    std::vector<CoreDataSpaceHeader> data_space_headers;
+
     CoreEventIndex event_index;
     
     bool isDoingSomething; //TODO async fields

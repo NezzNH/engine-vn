@@ -53,3 +53,23 @@ void CoreDataSpace::add_data_header_and_set_body_data(CoreDataSpaceHeader data_h
 
     this->data_sections.push_back(new_section);
 }
+
+CoreDataSpaceHeader CoreDataSpace::register_new_header(CoreDataType data_type) {
+
+    //NOTE : for now, IDs will be sequential. the reason why code above checks
+    //through all data headers to find the right one instead of just using the id's as an index
+    //is because in the future i plan to make register_new_header and IDs in general random
+
+    //the reason ive not done it now is because mt19937 is best used when compiling with -O2 and above
+    //which i dont plan to use right now. its possible i could use a simpler PRNG but right now ill just
+    //make it sequential for simplicity of debugging
+
+    CoreDataSpaceHeader new_header = this->data_sections.back().header;
+    new_header.data_header_id++;
+    new_header.data_type = data_type;
+
+    CoreDataSpaceSection new_section = {{new_header}, {}};
+    this->data_sections.push_back(new_section);
+
+    return new_header;
+}
