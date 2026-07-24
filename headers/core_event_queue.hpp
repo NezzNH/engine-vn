@@ -8,20 +8,24 @@
 #include <deque>
 #include <cstdint>
 
+struct CoreEventQueueRegister{
+    std::vector<CoreEventRegister> subscribed_events;
+    std::vector<CoreModule*> subscribed_modules;
+    uint8_t queue_id;
+};
+
 class CoreEventQueue {
 private:
     std::vector<CoreModule*> modules; 
-    std::vector<CoreEvent> subscribed_events;
+    std::vector<CoreEventReference> subscribed_events;
     std::deque<CoreEvent> event_queue;
-    //Core* core_ref; this is most likely not necessary
-    uint8_t id;
+    uint8_t queue_id;
 public:
     CoreEventQueue() = delete;
     CoreEventQueue(uint8_t);
     uint8_t return_id();
 
     void subscribe_to_event(CoreEvent);
-    void subscribe_to_events(std::vector<CoreEvent>);
     bool is_subscribed_to_event(CoreEvent);
 
     bool enqueue_event(CoreEvent);

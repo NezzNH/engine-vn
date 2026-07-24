@@ -6,8 +6,8 @@
 #include <string>
 
 struct CoreEvent {
-    uint16_t event_id, dataspace_header_id;
-    uint8_t context_id, dataspace_id;
+    uint16_t event_id, data_header_id;
+    uint8_t context_id, data_id;
 };
 
 struct CoreEventReference {
@@ -19,6 +19,7 @@ class CoreEventIndex {
 private:
     std::vector<CoreEventReference> events;
 public:
+    CoreEventIndex();
     CoreEventIndex(std::vector<CoreEventReference>);
 
     bool is_valid_event(CoreEventReference);

@@ -1,6 +1,10 @@
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
 
+#include "core_module.hpp"
+#include "core_event.hpp"
+#include "core_event_queue.hpp"
+
 #include <map>
 #include <cstdint>
 #include <string>
@@ -8,38 +12,16 @@
 #include <vector>
 #include <array>
 
-struct CoreStateSignal {
-    uint32_t scan_code; 
+struct CoreStateRegister {
+    uint8_t state_type_id;
 };
 
 class CoreState {
+private:
+    CoreModuleRegistry modules;
+    CoreEventQueueRegister event_queues;
+    
 public:
-    std::string display_string;
-};
-
-class MainMenu : public CoreState {
-public:
-    MainMenu();
-};
-
-class OptionsMenu : public CoreState {
-public:
-    OptionsMenu();
-};
-
-class CreditsMenu : public CoreState {
-public:
-    CreditsMenu();
-};
-
-class GameplayLoop : public CoreState {
-public:
-    GameplayLoop();
-};
-
-class Exit : public CoreState {
-public:
-    Exit();
 };
 
 class CoreStateManager {
@@ -49,14 +31,14 @@ private:
 public:
     CoreStateManager();
 
-    CoreState request_change_game_state(CoreStateSignal);
+    CoreState request_change_game_state(CoreEvent);
     CoreState curr_game_state;
 };
 
 struct CoreStateGraphNode {
     CoreState node_state;
     std::vector<uint8_t> neighbors;
-    std::vector<CoreStateSignal> change_signal;
+    std::vector<CoreEvent> change_signal;
 };
 
 class CoreStateGraph {

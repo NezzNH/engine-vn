@@ -9,40 +9,11 @@
 #include "core_state.hpp"
 #include "core_event.hpp"
 #include "core_event_queue.hpp"
+#include "core_data_space.hpp"
 
 #include "display.hpp"
 #include "console.hpp"
 #include "input_handler.hpp"
-
-struct CoreDataSpaceHeader {
-    uint16_t data_size;
-    uint8_t data_type;
-};
-
-class CoreDataSpace {
-private:
-    std::vector<CoreDataSpaceHeader> headers;
-    std::vector<uint8_t> data;
-public:
-    CoreDataSpace();
-
-    bool is_empty();
-    void clear();
-
-    bool add_record(CoreDataSpaceHeader, uint8_t*);
-    bool add_record(CoreDataSpaceHeader, std::vector<uint8_t>);
-
-    bool pop_record(uint8_t);
-};
-
-
-class CoreModuleRegistry {
-private:
-    std::vector<CoreModuleRegister> module_registers;
-public:
-    CoreModuleRegistry();
-    CoreModuleRegistry();
-};
 
 class Core {
 private:

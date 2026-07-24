@@ -6,23 +6,41 @@
 #include <vector>
 #include <array>
 
-#include "core.hpp"
+#include "core_event.hpp"
+#include "core_data_space.hpp"
 
 struct CoreModuleRegister{
     CoreEventRegistry module_events;
     std::string name, description;
-    uint8_t module_id;
+    uint8_t module_type_id;
+};
+
+class CoreModuleRegistry {
+private:
+    std::vector<CoreModuleRegister> module_registers;
+public:
+    CoreModuleRegistry();
 };
 
 class CoreModule {
 private:
-    bool bIsDoingSomething; //TODO async fields
+    uint8_t module_id, module_type_id;
 
-    CoreEventRegistry event_registry;
+    CoreEventIndex event_index;
+    
+    bool isDoingSomething; //TODO async fields
+    bool isListening; //will be unified with bIsDoingSomething, but for now this is different from if the module is doing anything
 public:
-    uint8_t module_id;
 
+    CoreModule() = delete;
+    CoreModule(uint8_t);
+
+    bool isSubscribedToEvent(CoreEventReference);
     bool isSubscribedToEvent(CoreEvent);
+
+    bool isActive();
+    void activate_module();
+    void deactivate_module();
 
     virtual CoreEvent hand_off_control_flow(CoreEvent) = 0;
 
@@ -32,7 +50,7 @@ public:
 
     CoreModule();
 
-    CoreEventRegistry get_event_registry();
+    CoreEventIndex get_event_index();
 };
 
 #endif
