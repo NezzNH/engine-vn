@@ -14,6 +14,15 @@ struct CoreEventQueueRegister{
     uint8_t queue_id;
 };
 
+class CoreEventQueueIndex {
+private:
+    std::vector<CoreEventQueueRegister> registers;
+    bool contains_register();
+public:
+    void add_queue_index(CoreEventQueueRegister);
+    std::vector<CoreEventQueueRegister> get_registers();
+};
+
 class CoreEventQueue {
 private:
     std::vector<CoreModule*> modules; 
