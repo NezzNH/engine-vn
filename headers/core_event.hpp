@@ -5,14 +5,13 @@
 #include <vector>
 #include <string>
 
-struct CoreEvent {
-    uint16_t event_id, data_header_id;
-    uint8_t context_id, data_id;
+struct CoreDataEvent {
+    std::string context_id, event_id;
+    std::string data_header_id, data_id;
 };
 
-struct CoreEventReference {
-    uint16_t event_id;
-    uint8_t context_id;
+struct CoreEvent {
+    std::string context_id, event_id;
 };
 
 class CoreEventIndex {
@@ -30,7 +29,7 @@ public:
 
 struct CoreEventContext {
     CoreEventIndex events;
-    uint8_t id;
+    std::string id;
 };
 
 struct CoreEventRegister {
@@ -41,7 +40,7 @@ struct CoreEventRegister {
 struct CoreEventContextRegister {
     std::vector<CoreEventRegister> event_registers;
     std::string name, description;
-    uint8_t context_id;
+    std::string context_id;
 };
 
 class CoreEventRegistry {
