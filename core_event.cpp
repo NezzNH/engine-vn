@@ -1,25 +1,43 @@
 #include "core_event.hpp"
 
-CoreEventIndex::CoreEventIndex(std::vector<CoreEventReference> events) {
-    this->events = events;
+CoreEventContext::CoreEventContext() {
+    this->context_name = "default_context";
+    this->context_numerical_id = 0;
 }
 
-bool CoreEventIndex::is_valid_event(CoreEventReference input_event) {
+CoreEventContext::~CoreEventContext() {
+    this->events.clear();
+}
+
+bool CoreEventContext::event_already_registered(std::string event_id) {
+    for (uint16_t i = 0; i < this->event.size(); ++i)
+        if (this->events[i].event.event_id == event_id) 
+            return false;
+    return true;
+}
+
+bool CoreEventContext::register_event(std::string event_id) {
+
+    if (this->event_already_registered(event_id)) return false;
+
+    this->events.push_back({{this->context_name, event_id}, "", 0});
+
+    return true;
+}
+
+bool CoreEventContext::register_event(std::string event_id, std::string description) {
+    if (this->event_already_registered(event_id)) return false;
+
+    this->events.push_back({{this->context_name, event_id}, description, 0});
+
+    return true;
+}
+
+void CoreEventContext::delete_event(std::string event_id) {
     for (uint8_t i = 0; i < this->events.size(); ++i) {
-        if (this->events[i].context_id == input_event.context_id &&
-            this->events[i].event_id == input_event.event_id)
-                return true;
+        if (this->events[i].event.event_id == event_id) {
+            this->events.erase(i);
+            break;
+        }
     }
-
-    return false;
-}
-
-void CoreEventIndex::register_event(CoreEventReference input_event) {
-    if (this->is_valid_event(input_event)) return;
-
-    this->events.push_back(input_event);
-}
-
-std::vector<CoreEventReference> CoreEventIndex::get_all_events() {
-    return this->events; //TODO make a simple array
 }

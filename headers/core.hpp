@@ -24,7 +24,7 @@ private:
     CoreModuleRegistry core_module_registry;
     std::vector<CoreModule> core_modules;
 
-    CoreEventRegistry event_registry;
+    std::vector<CoreEventContext> event_contexts;
     std::vector<CoreEventQueue> event_queues;
 
     uint8_t core_data_spaces_limit;
@@ -38,6 +38,8 @@ public:
     void route_event(CoreEvent);
     void take_core_event(CoreEvent);
     CoreEvent dispatch_work(uint8_t);
+
+    void register_module(std::string, std::vector<std::string>);
 
     CoreDataSpace* get_data_space();
     

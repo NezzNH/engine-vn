@@ -5,16 +5,15 @@
 #include <vector>
 #include <string>
 
-struct CoreDataEvent {
-    std::string context_id, event_id;
-    std::string data_header_id, data_id;
-};
-
 struct CoreEvent {
     std::string context_id, event_id;
 };
 
-class CoreEventIndex {
+struct CoreDataEvent : CoreEvent {
+    std::string data_header_id, data_id;
+};
+
+/*class CoreEventIndex {
 private:
     std::vector<CoreEventReference> events;
 public:
@@ -25,32 +24,29 @@ public:
     
     void register_event(CoreEventReference);
     std::vector<CoreEventReference> get_all_events();
-};
-
-struct CoreEventContext {
-    CoreEventIndex events;
-    std::string id;
-};
+};*/
 
 struct CoreEventRegister {
-    std::string name, description;
-    CoreEventReference event;
+    CoreEvent event;
+    std::string description;
+    uint16_t numerical_id;
 };
 
-struct CoreEventContextRegister {
-    std::vector<CoreEventRegister> event_registers;
-    std::string name, description;
-    std::string context_id;
-};
-
-class CoreEventRegistry {
+class CoreEventContext {
 private:
-    std::vector<CoreEventContextRegister> context_registers;
-public:
-    void add_events(CoreEventIndex);
-    void add_events(CoreEventContextRegister); //TODO build this from each module, send it that way. adds descriptions and so on
+    std::vector<CoreEventRegister> events;
+    std::string context_name;
+    uint16_t context_numerical_id;
 
-    uint8_t get_next_available_context_id();
+    bool event_already_registered(std::string);
+public:
+    CoreEventContext();
+    ~CoreEventContext();
+
+    bool register_event(std::string);
+    bool register_event(std::string, std::string);
+
+    void delete_event(std::string);
 };
 
 #endif
