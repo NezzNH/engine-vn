@@ -8,15 +8,35 @@ void CoreModule::deactivate_module() {
     this->isListening = false;
 }
 
-bool CoreModule::isActive() {
+bool CoreModule::is_active() {
     return this->isListening;
 }
 
-bool CoreModule::isSubscribedToEvent(CoreEventReference input_event_ref) {
-    return this->event_index.is_valid_event(input_event_ref);
+bool CoreModule::is_subscribed_to_event(std::string event_id) {
+
+    for (uint16_t i = 0; i < this->events.size(); ++i)
+        if (event_id == this->events[i])
+            return true;
+
+    return false;
 }
 
-bool CoreModule::isSubscribedToEvent(CoreEvent input_event) {
-    CoreEventReference ref = {{input_event.event_id},{input_event.context_id}};
-    return this->isSubscribedToEvent(ref);
+bool CoreModule::is_subscribed_to_event(CoreEvent event) {
+
+    return this->is_subscribed_to_event(event.event_id);
+
 }
+
+bool CoreModule::is_subscribed_to_event(CoreDataEvent event) {
+
+    return this->is_subscribed_to_event(event.event_id);
+
+}
+
+bool CoreModule::is_busy() {
+
+    return this->is_busy;
+
+}
+
+

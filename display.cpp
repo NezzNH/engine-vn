@@ -41,14 +41,17 @@ void Display::write_string_to_screen(std::string display_string) {
     this->console.write_at_cursor(display_string);
 } //TODO remove this function, its just for debugging for now!
 
-CoreEvent Display::hand_off_control_flow(CoreEvent input_event) {
-    switch (input_event.event_id) {
-        
+CoreEvent hand_off_event_sync(CoreDataEvent event) {
+    if (event.event_id == "display_content_update") {
+        this->reset_screen();
+        this->write_string_to_screen();
     }
 }
 
-void Display::hand_off_event(CoreEvent input_event) {
-
+void Display::hand_off_event(CoreDataEvent input_event) {
+    if (input_event.event_id == "display_content_changed") {
+        //this->reset_screen();
+    }
 }
 
 Display::Display() {

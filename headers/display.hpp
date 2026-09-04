@@ -36,9 +36,11 @@ private:
 public:
     Display();
 
-    CoreEvent hand_off_control_flow(CoreEvent) override;
+    CoreEvent hand_off_event_sync(CoreEvent) override;
+    CoreEvent hand_off_event_sync(CoreDataEvent) override;
 
-    void hand_off_event(CoreEvent) override;
+    void hand_off_event_async(CoreEvent) override;
+    void hand_off_event_async(CoreDataEvent) override;
 
     void reset_screen();
 

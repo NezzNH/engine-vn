@@ -10,9 +10,8 @@
 #include "core_data_space.hpp"
 
 struct CoreModuleRegister{
-    CoreEventRegistry module_events;
+    std::vector<std::string> module_events;
     std::string name, description;
-    uint8_t module_type_id;
 };
 
 class CoreModuleRegistry {
@@ -24,36 +23,39 @@ public:
 
 class CoreModule {
 private:
-    uint8_t module_id, module_type_id;
+    std::string module_id;
 
-    CoreDataSpace* data_space_ref;
+    CoreDataSpace* data_space_p;
     std::vector<CoreDataSpaceHeader> data_space_headers;
 
-    CoreEventIndex event_index;
-    
-    bool isDoingSomething; //TODO async fields
-    bool isListening; //will be unified with bIsDoingSomething, but for now this is different from if the module is doing anything
+    std::vector<std::string> events;
+
+    bool is_busy; //TODO async fields
+    bool is_listening; //will be unified with bIsDoingSomething, but for now this is different from if the module is doing anything
 public:
 
     CoreModule() = delete;
     CoreModule(uint8_t);
 
-    bool isSubscribedToEvent(CoreEventReference);
-    bool isSubscribedToEvent(CoreEvent);
+    bool is_subscribed_to_event(std::string);
+    bool is_subscribed_to_event(CoreEvent);
+    bool is_subscribed_to_event(CoreDataEvent);
 
-    bool isActive();
+    bool is_active();
     void activate_module();
     void deactivate_module();
 
-    virtual CoreEvent hand_off_control_flow(CoreEvent) = 0;
+    virtual CoreEvent hand_off_event_sync(CoreEvent) = 0;
+
+    virtual CoreEvent hand_off_event_sync(CoreDataEvent) = 0;
 
     //TODO async methods
-    virtual void hand_off_event(CoreEvent) = 0;
-    bool isDoingSomething();
+    virtual void hand_off_event_async(CoreEvent) = 0;
+    virtual void hand_off_event_async(CoreDataEvent) = 0;
+    bool is_busy();
 
     CoreModule();
-
-    CoreEventIndex get_event_index();
+    std::vector<std::string> get_events();
 };
 
 #endif
