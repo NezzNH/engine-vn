@@ -10,18 +10,9 @@ struct CoreDataType {
 };
 
 struct CoreDataTypeRegister{
+    CoreDataType data_type;
     std::string description;
 };
-
-/*class CoreDataTypeIndex {
-private:
-    std::vector<CoreDataType> data_types;
-public:
-    bool is_valid_data_type(CoreDataType);
-
-    void register_data_type(CoreDataType);
-    void convert_from_registry(std::vector<CoreDataTypeRegister>); //TODO probably not necessary
-};*/
 
 class CoreDataTypeRegistry {
 private:
@@ -34,14 +25,14 @@ public:
 };
 
 struct CoreDataSpaceHeader {
-    std::string data_header_id;
     CoreDataType data_type;
     uint64_t max_data_size;
 };
 
 struct CoreDataSpaceSection {
-    CoreDataSpaceHeader header;
     std::vector<uint8_t> byte_data;
+    CoreDataSpaceHeader header;
+    std::string data_section_id;
 };
 
 class CoreDataSpace {

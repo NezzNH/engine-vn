@@ -46,7 +46,6 @@ public:
     void deactivate_module();
 
     virtual CoreEvent hand_off_event_sync(CoreEvent) = 0;
-
     virtual CoreEvent hand_off_event_sync(CoreDataEvent) = 0;
 
     //TODO async methods

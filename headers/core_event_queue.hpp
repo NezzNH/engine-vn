@@ -6,40 +6,33 @@
 
 #include <vector>
 #include <deque>
+#include <variant>
 #include <cstdint>
 
 struct CoreEventQueueRegister{
-    std::vector<CoreEventRegister> subscribed_events;
+    std::vector<std::string> subscribed_events;
     std::vector<CoreModule*> subscribed_modules;
-    uint8_t queue_id;
-};
-
-class CoreEventQueueIndex {
-private:
-    std::vector<CoreEventQueueRegister> registers;
-    bool contains_register();
-public:
-    void add_queue_index(CoreEventQueueRegister);
-    std::vector<CoreEventQueueRegister> get_registers();
+    std::string queue_id;
 };
 
 class CoreEventQueue {
 private:
     std::vector<CoreModule*> modules; 
-    std::vector<CoreEventReference> subscribed_events;
-    std::deque<CoreEvent> event_queue;
-    uint8_t queue_id;
+    std::vector<std::string> subscribed_events;
+    std::deque<std::variant<CoreEvent, CoreDataEvent>> event_queue;
+    std::string queue_id;
 public:
     CoreEventQueue() = delete;
-    CoreEventQueue(uint8_t);
-    uint8_t return_id();
+    CoreEventQueue(std::string);
+    std::string return_id();
 
-    void subscribe_to_event(CoreEvent);
-    bool is_subscribed_to_event(CoreEvent);
+    void subscribe_to_event(std::string);
+    bool is_subscribed_to_event(std::string);
 
-    bool enqueue_event(CoreEvent);
+    bool enqueue_event(std::variant<CoreEvent, CoreDataEvent>);
 
-    CoreEvent hand_off_control_flow();
+    CoreEvent hand_off_event_sync();
+    CoreDataEvent hand_off_event_sync();
 };
 
 #endif

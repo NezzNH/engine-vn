@@ -20,7 +20,7 @@ bool CoreEventContext::register_event(std::string event_id) {
 
     if (this->event_already_registered(event_id)) return false;
 
-    this->events.push_back({{this->context_name, event_id}, "", 0});
+    this->events.push_back({{this->context_name, event_id}, ""});
 
     return true;
 }
@@ -28,7 +28,7 @@ bool CoreEventContext::register_event(std::string event_id) {
 bool CoreEventContext::register_event(std::string event_id, std::string description) {
     if (this->event_already_registered(event_id)) return false;
 
-    this->events.push_back({{this->context_name, event_id}, description, 0});
+    this->events.push_back({{this->context_name, event_id}, description});
 
     return true;
 }
