@@ -17,7 +17,7 @@
 
 class Core {
 private:
-    bool isRunning;
+    bool is_running;
     CoreStateManager state_manager;
     uint8_t updated_queue; //convert to FIFO for multithreaded support, with associated methods for ease of use
 
@@ -36,8 +36,9 @@ public:
 
     void main_loop();
     void route_event(CoreEvent);
+    void route_event(CoreDataEvent);
     void take_core_event(CoreEvent);
-    CoreEvent dispatch_work(uint8_t);
+    void take_core_event(CoreDataEvent);
 
     void register_module(std::string, std::vector<std::string>);
 

@@ -1,0 +1,13 @@
+Above all, two things are enshrined in this engine:
+
+    Performance
+    Modularity
+
+in that order.
+
+It is almost ubiquitous that one can't have all three: ease of development, performance, and extensibility (in this case granted via modularity). Thus, 
+ease of development is impeded here (at least on the end of the person maintaining the engine).
+
+
+
+

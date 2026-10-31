@@ -1,0 +1,64 @@
+The unit of functionality in this engine is a module. Each module derives from a base CoreModule class, which provides the base interface for all modules.
+
+Modules should ideally do only one thing. In the case where we have a manager module (a module that presides over many other functionally linked modules like UI, sound, graphics) that module's only responsibility is to route the relevant packets into the module. Alternatively, the manager module with aggregation design principles could be exchanged very easily with a queue and a watcher module which routes relevant updates instead of containing each module.
+
+CoreModules and modules mean the same thing in this document.
+
+The main thing a module is characterized by is its list of CoreEvents. these can be either events it is actively listening for, or events it is outputting.
+
+Every module must be able to:
+    be created
+    be destroyed
+    be moved to a new queue
+    be reset
+    access the logger
+    access the error_handler
+    execute synchronously
+    execute asynchronously (this may not work for some modules)
+
+Every module does this based on events that it receives and events that it sends out.
+
+Incoming events are routed by the core into the relevant queue, (then popped from it if so defined)
+then the module's functional method is called either synchronously or asynchronously, depending on implementation.
+
+If a module is called synchronously, it will execute it's code and return its output event to the function caller.
+
+This will usually be the core, which will then route the event again and do so repeatedly until program end.
+
+If a module is called asynchronously, it will start a new thread and execute it's code, then either:
+    update the relevant data fields silently and rejoin the main thread
+    OR
+    wait for a synchronicity point, at which it can publish its work/event
+    OR
+    update the relevant data fields and send out an event back to the core, then rejoin the main thread
+    OR
+    continually change data fields, either silently or with relevant events.
+
+The OR here is very specific, as these are mutually exclusive modes of work.
+
+If at any point multiple of these systems of work are running, the result is very unpredictable.
+
+No module can emit more than one event after being called if it is called synchronously.
+
+If a module has to wait for a relevant signal to publish its event after it has finished execution, this can only be done asychronously (for now).
+
+A module is instantiated by the Core by:
+    consulting the current core state blueprint
+    AND/OR
+    consulting a serialized session snapshot
+
+Modules can communicate by:
+    Emitting an event that carries enough information for action
+    AND/OR
+    Updating a data-field and notifying that the update happened through the core by sending a DataField update event
+
+Some events, like KeyboardInputReceived may satisfy both criteria, as a keyboard input has to publish the data to the relevant data space, while also making sure that modules that are waiting on a keyboard input (such as everything else in the program in a certain running state) are notified of this change.
+
+In such cases, however, it is highly encouraged NOT to publish an event AND modify a data field. While this is possible and necessary in such cases, if the payload of the change is small enough, it might be benificial to simply route it through the CoreEvent structure as a small addendum to the CoreEvent (CoreDataEvent might support this functionality) OR to simply publish the change to the DataField, and send the update signal. These are functionally equivalent to sending a specific event.
+
+In this case, updating the DataField which holds LastKeyPress and sending news of the update through the Core is functionally equivalent to sending a KeyboardInputReceived with a tiny payload (this is slightly more time efficient) OR sending a KeyboardInputReceived event AND updating the data field.
+
+Concerns here exist around the speed of routing these events through the core. If the core is bogged down with too much work at some point, or simply the necessity to search through an entire map to find the relevant subscribed events, checking if the event is uniquely subscribed or consumed by a module and so on, this could slow down an otherwise instant signal of pressing a key. I could consider fast-tracking these real-time tagged events for immediate shipping - something like a cache for the correct routing for events that are tagged as real-time events may be appropriate for this role.
+
+Another consideration is the idea that the UI/Input code will run on a separate thread to the main engine functinoality. This means the engine, at least, will take 2 threads to run. This might be a concern for super old CPUs, where not many threads exist to go around. The idea is that it will be possible to completely strip down the amount of threads as much as possible, but some considerations then must be made to the design of this entire system, as pertains to responsiveness, data safety and general speed of execution.
+

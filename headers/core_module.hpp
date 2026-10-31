@@ -19,6 +19,9 @@ private:
     std::vector<CoreModuleRegister> module_registers;
 public:
     CoreModuleRegistry();
+    
+    bool contains_module_register(std::string);
+    void register_module(std::string, std::vector<std::string>);
 };
 
 class CoreModule {
@@ -35,7 +38,7 @@ private:
 public:
 
     CoreModule() = delete;
-    CoreModule(uint8_t);
+    CoreModule(std::string);
 
     bool is_subscribed_to_event(std::string);
     bool is_subscribed_to_event(CoreEvent);
@@ -53,8 +56,6 @@ public:
     virtual void hand_off_event_async(CoreDataEvent) = 0;
     bool is_busy();
 
-    CoreModule();
-    std::vector<std::string> get_events();
+    virtual std::vector<std::string> get_events();
 };
-
 #endif

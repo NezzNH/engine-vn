@@ -1,13 +1,9 @@
 #include "core.hpp"
 
-Core::Core(std::string state_name) {
-    this->state_manager = CoreStateManager(state_name);
+void Core::register_module(std::string module_id,
+                     std::vector<std::string> subscribed_events) {
+    if (this->core_module_registry.contains_module_register(module_id)) return;
+
+    this->core_module_registry.register_module(module_id, subscribed_events);
+
 }
-
-void Core::main_loop() {
-    while (this->isRunning) {
-        
-    }
-}
-
-

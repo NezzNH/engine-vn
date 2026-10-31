@@ -15,13 +15,11 @@
 struct CoreState {
     CoreModuleRegistry modules;
     CoreEventQueueIndex event_queues;
-    std::string name;
-    uint8_t state_id;
+    std::string name, state_id;
 };
 
 struct CoreStateRegister {
-    uint8_t state_id;
-    std::string name, description;
+    std::string name, description, state_id;
 };
 
 class CoreStateRegistry{

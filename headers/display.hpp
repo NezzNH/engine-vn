@@ -33,6 +33,10 @@ class Display : public CoreModule {
 private:
     Console console;
     std::bitset<ANSI_ESCAPE_ATTRIBUTE_COUNT> current_display_attributes;
+
+    void reset_screen();
+    void write_to_screen(std::vector<DisplayCharacter>);
+    void write_string_to_screen(std::string);
 public:
     Display();
 
@@ -42,10 +46,6 @@ public:
     void hand_off_event_async(CoreEvent) override;
     void hand_off_event_async(CoreDataEvent) override;
 
-    void reset_screen();
-
-    void write_to_screen(std::vector<DisplayCharacter>);
-    void write_string_to_screen(std::string);
+    std::vector<std::string> get_events() override;
 };
-
 #endif
