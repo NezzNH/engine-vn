@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <map>
 
 struct CoreDataType {
     std::string data_type_id;

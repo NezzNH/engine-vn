@@ -3,8 +3,5 @@
 
     #include "core.hpp" //contains all other core functionality headers
 
-    #include "display.hpp"
-    #include "console.hpp"
-    #include "input_handler.hpp"
-
+    #include "integer_iterator.hpp"
 #endif

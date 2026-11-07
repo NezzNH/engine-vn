@@ -37,4 +37,6 @@ int main() {
             Clean up all objects, (serialize if possible any information in the data_spaces), and close.
     */
 
+    IntegerIterator it1;
+
 }

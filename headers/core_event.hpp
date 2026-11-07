@@ -1,7 +1,6 @@
 #ifndef CORE_EVENT_H
 #define CORE_EVENT_H
 
-#include <cstdint>
 #include <vector>
 #include <string>
 
@@ -18,20 +17,14 @@ struct CoreEventRegister {
     std::string description;
 };
 
-class CoreEventContext {
-private:
-    std::vector<CoreEventRegister> events;
-    std::string context_name;
+struct CoreEventContext {
+    std::vector<CoreEvent> event;
+    std::string context_id;
+};
 
-    bool event_already_registered(std::string);
-public:
-    CoreEventContext();
-    ~CoreEventContext();
-
-    bool register_event(std::string);
-    bool register_event(std::string, std::string);
-
-    void delete_event(std::string);
+struct CoreEventContextIndex {
+    std::vector<std::string> event_ids;
+    std::string context_id;
 };
 
 #endif

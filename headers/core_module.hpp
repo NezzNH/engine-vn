@@ -1,16 +1,14 @@
 #ifndef CORE_MODULE_H
 #define CORE_MODULE_H
 
-#include <cstdint>
-#include <deque>
 #include <vector>
-#include <array>
 
 #include "core_event.hpp"
 #include "core_data_space.hpp"
 
 struct CoreModuleRegister{
-    std::vector<std::string> module_events;
+    std::vector<std::string> module_incoming_events;
+    std::vector<std::string> module_outgoing_events;
     std::string name, description;
 };
 
@@ -31,14 +29,14 @@ private:
     CoreDataSpace* data_space_p;
     std::vector<CoreDataSpaceHeader> data_space_headers;
 
-    std::vector<std::string> events;
-
-    bool is_busy; //TODO async fields
-    bool is_listening; //will be unified with bIsDoingSomething, but for now this is different from if the module is doing anything
+    std::vector<CoreEventContextIndex> incoming_events;
+    std::vector<CoreEventContextIndex> outgoing_events;
+    
+    bool b_is_busy; //TODO async fields
 public:
-
-    CoreModule() = delete;
+    CoreModule();
     CoreModule(std::string);
+    CoreModule(std::string, CoreDataSpace*);
 
     bool is_subscribed_to_event(std::string);
     bool is_subscribed_to_event(CoreEvent);
@@ -56,6 +54,8 @@ public:
     virtual void hand_off_event_async(CoreDataEvent) = 0;
     bool is_busy();
 
-    virtual std::vector<std::string> get_events();
+    std::vector<std::string> get_incoming_events();
+    std::vector<std::string> get_outgoing_events();
 };
+
 #endif

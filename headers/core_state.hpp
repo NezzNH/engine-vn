@@ -5,12 +5,10 @@
 #include "core_event.hpp"
 #include "core_event_queue.hpp"
 
-#include <map>
 #include <cstdint>
 #include <string>
 #include <stack>
 #include <vector>
-#include <array>
 
 struct CoreState {
     CoreModuleRegistry modules;

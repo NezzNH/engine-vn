@@ -45,7 +45,5 @@ public:
 
     void hand_off_event_async(CoreEvent) override;
     void hand_off_event_async(CoreDataEvent) override;
-
-    std::vector<std::string> get_events() override;
 };
 #endif
