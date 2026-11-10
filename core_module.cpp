@@ -17,15 +17,10 @@ static constexpr std::array OUTGOING_EVENTS_DECL{
 };
 
 CoreModule::CoreModule() {
-    this->incoming_events.insert(this->incoming_events.end(),
-                                INCOMING_EVENTS_DECL.begin(),
-                                INCOMING_EVENTS_DECL.end());
-    
-    this->outgoing_events.insert(this->outgoing_events.end(),
-                                OUTGOING_EVENTS_DECL.begin(),
-                                OUTGOING_EVENTS_DECL.end());
 
-    std::cout << "hello im the base constructor\n";
+    for (int i = 0; i < INCOMING_EVENTS_DECL.size(); ++i) {
+        
+    }
 
     this->b_is_busy = false;
     this->data_space_p = nullptr; //TODO these are likely
@@ -44,14 +39,3 @@ CoreModule::CoreModule(std::string module_id, CoreDataSpace* data_space_p) : Cor
     this->data_space_p = data_space_p;
 }
 
-bool CoreModule::is_subscribed_to_event(std::string event) {
-    for (size_t i = 0; i < this->incoming_events.size(); ++i)
-        if (event == this->incoming_events[i])
-            return true;
-    return false; //TODO see if you can use a better 
-                  //data structure to go below O(n) for searching events
-}
-
-bool CoreModule::is_subscribed_to_event(CoreEvent event) {
-    
-}

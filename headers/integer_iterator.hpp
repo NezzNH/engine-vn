@@ -1,7 +1,9 @@
 #ifndef INTEGER_ITERATOR_H
-#define ITEGER_ITERATOR_H
+#define INTEGER_ITERATOR_H
 
 #include "core_module.hpp"
+
+#include <array>
 
 /*
     this serves as an example for MVP, refer to main.cpp for what that actually is
