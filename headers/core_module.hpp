@@ -6,6 +6,7 @@
 #include "core_event.hpp"
 #include "core_data_space.hpp"
 
+
 struct CoreModuleRegister{
     std::vector<std::string> module_incoming_events;
     std::vector<std::string> module_outgoing_events;
@@ -33,14 +34,18 @@ private:
     std::vector<CoreEventContextIndex> outgoing_events;
     
     bool b_is_busy; //TODO async fields
+    bool b_is_active;
 public:
-    CoreModule();
+    CoreModule(); //TODO compress these into one constructor!
     CoreModule(std::string);
     CoreModule(std::string, CoreDataSpace*);
 
     bool is_subscribed_to_event(std::string);
     bool is_subscribed_to_event(CoreEvent);
     bool is_subscribed_to_event(CoreDataEvent);
+
+    void add_incoming_event_subscription(std::string);
+    void add_outgoing_event_subscription(std::string);
 
     bool is_active();
     void activate_module();

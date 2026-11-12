@@ -1,43 +1,19 @@
 #include "core_event.hpp"
 
-CoreEventContext::CoreEventContext() {
-    this->context_name = "default_context";
-    this->context_numerical_id = 0;
+std::string get_context_of_event(std::string input) {
+    uint16_t context_name_length = 0; //TODO if context names ever expand in strlen, change this
+
+    while (input[context_name_length] != ';' || input[context_name_length] != '\0') 
+        context_name_length++;
+    
+    return std::string{input.substr(0, context_name_length)};
 }
 
-CoreEventContext::~CoreEventContext() {
-    this->events.clear();
-}
+std::string get_name_of_event(std::string input) {
+    uint16_t context_name_length = 0;
 
-bool CoreEventContext::event_already_registered(std::string event_id) {
-    for (uint16_t i = 0; i < this->event.size(); ++i)
-        if (this->events[i].event.event_id == event_id) 
-            return false;
-    return true;
-}
+    while (input[context_name_length] != ';' || input[context_name_length])
+        context_name_length++;
 
-bool CoreEventContext::register_event(std::string event_id) {
-
-    if (this->event_already_registered(event_id)) return false;
-
-    this->events.push_back({{this->context_name, event_id}, ""});
-
-    return true;
-}
-
-bool CoreEventContext::register_event(std::string event_id, std::string description) {
-    if (this->event_already_registered(event_id)) return false;
-
-    this->events.push_back({{this->context_name, event_id}, description});
-
-    return true;
-}
-
-void CoreEventContext::delete_event(std::string event_id) {
-    for (uint8_t i = 0; i < this->events.size(); ++i) {
-        if (this->events[i].event.event_id == event_id) {
-            this->events.erase(i);
-            break;
-        }
-    }
+    return std::string{input.substr(context_name_length+2, input.length() - context_name_length - 2)};
 }

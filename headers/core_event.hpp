@@ -27,4 +27,7 @@ struct CoreEventContextIndex {
     std::string context_id;
 };
 
+std::string get_context_of_event(std::string);
+std::string get_name_of_event(std::string);
+
 #endif
