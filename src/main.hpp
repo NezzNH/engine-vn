@@ -4,4 +4,6 @@
     #include "core.hpp" //contains all other core functionality headers
 
     #include "integer_iterator.hpp"
+    #include <iostream>
+    #include <cstdint>
 #endif

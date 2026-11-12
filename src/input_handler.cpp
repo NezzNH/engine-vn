@@ -82,10 +82,6 @@ bool InputHandler::pop_input_event(std::unique_ptr<InputEvent>* event) {
     return true;
 }
 
-CoreEvent InputHandler::hand_off_control_flow(CoreEvent input_event) {
+CoreEvent InputHandler::hand_off_event_sync(CoreEvent input_event) {
     return input_event;
-}
-
-void InputHandler::hand_off_event(CoreEvent input_event) {
-    
 }

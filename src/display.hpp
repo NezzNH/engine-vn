@@ -43,7 +43,7 @@ public:
     CoreEvent hand_off_event_sync(CoreEvent) override;
     CoreEvent hand_off_event_sync(CoreDataEvent) override;
 
-    void hand_off_event_async(CoreEvent) override;
-    void hand_off_event_async(CoreDataEvent) override;
+    //void hand_off_event_async(CoreEvent) override;
+    //void hand_off_event_async(CoreDataEvent) override;
 };
 #endif

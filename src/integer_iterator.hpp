@@ -3,7 +3,7 @@
 
 #include "core_module.hpp"
 
-#include <array>
+#include <cstdint>
 
 /*
     this serves as an example for MVP, refer to main.cpp for what that actually is
@@ -13,15 +13,16 @@
 
 class IntegerIterator : public CoreModule {
 private:
-
+    uint64_t the_integer;
+    void integer_increment();
 public:
     IntegerIterator();
 
     CoreEvent hand_off_event_sync(CoreEvent) override;
     CoreEvent hand_off_event_sync(CoreDataEvent) override;
 
-    void hand_off_event_async(CoreEvent) override;
-    void hand_off_event_async(CoreDataEvent) override;
+    //void hand_off_event_async(CoreEvent) override;
+    //void hand_off_event_async(CoreDataEvent) override;
 };
 
 #endif

@@ -14,11 +14,8 @@
 #include <cstdint>
 #include <memory>
 
-#include <iostream>
-
 #include "common_types.hpp"
 #include "core_module.hpp"
-#include "core.hpp"
 #include "console.hpp"
 
 enum class InputEventType : uint8_t {
@@ -52,7 +49,6 @@ struct InputHandlerEvent : CoreEvent {
 class InputHandler : public CoreModule {
 private:
 
-    CoreEventRegistry event_registry;
     std::deque<std::unique_ptr<InputEvent>> input_events;
 
     Console* console_pointer;
@@ -75,10 +71,7 @@ public:
     InputHandler();
     InputHandler(Console*);
 
-    std::vector<CoreEventContextRegister> return_all_events();
-
-    CoreEvent hand_off_control_flow(CoreEvent) override;
-    void hand_off_event(CoreEvent) override;
+    CoreEvent hand_off_event_sync(CoreEvent) override;
 
     InputEventType peek_input_type();
 

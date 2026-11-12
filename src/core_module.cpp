@@ -13,7 +13,8 @@ std::array INCOMING_EVENTS_DECL{
 
 std::array OUTGOING_EVENTS_DECL{
     std::string{"core;died"},
-    std::string{"core;born"}
+    std::string{"core;born"},
+    std::string{"core;blank"}
 };
 
 void CoreModule::add_incoming_event_subscription(std::string event) {
@@ -38,11 +39,9 @@ void CoreModule::add_incoming_event_subscription(std::string event) {
     else {
         this->incoming_events.push_back(CoreEventContextIndex());
 
-        this->incoming_events.at(this->incoming_events.size()).context_id =
-        get_context_of_event(event);
+        this->incoming_events.back().context_id = get_context_of_event(event);
 
-        this->incoming_events.
-        at(this->incoming_events.size()).
+        this->incoming_events.back().
         event_ids.push_back(
             get_name_of_event(event)
         );
@@ -71,11 +70,9 @@ void CoreModule::add_outgoing_event_subscription(std::string event) {
     else {
         this->outgoing_events.push_back(CoreEventContextIndex());
 
-        this->outgoing_events.at(this->outgoing_events.size()).context_id =
-        get_context_of_event(event);
+        this->outgoing_events.back().context_id = get_context_of_event(event);
 
-        this->outgoing_events.
-        at(this->outgoing_events.size()).
+        this->outgoing_events.back().
         event_ids.push_back(
             get_name_of_event(event)
         );

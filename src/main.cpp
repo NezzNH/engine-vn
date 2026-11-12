@@ -39,4 +39,19 @@ int main() {
 
     IntegerIterator it1;
 
+    std::vector<std::string> it_incoming_events, it_outgoing_events;
+
+    it_incoming_events = it1.get_incoming_events();
+    it_outgoing_events = it1.get_outgoing_events();
+
+    std::cout << "\nINCOMING EVENTS:\n";
+
+    for (int16_t i = 0; i < it_incoming_events.size(); ++i)
+        std::cout << it_incoming_events.at(i) << "\n";
+
+    std::cout << "\nOUTGOING_EVENTS:\n";
+
+    for (int16_t i = 0; i < it_outgoing_events.size(); ++i)
+        std::cout << it_outgoing_events.at(i) << "\n";
+
 }

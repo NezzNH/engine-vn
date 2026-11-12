@@ -1,7 +1,5 @@
 #include "display.hpp"
 
-constexpr std::string DISPLAY_INPUT_EVENTS[20];
-
 void Display::reset_screen() {
     this->console.write_attribute(DisplayConstants::CURSOR_HOME_INDEX);
     this->console.write_attribute(DisplayConstants::CLEAR_SCREEN_INDEX);
@@ -43,17 +41,14 @@ void Display::write_string_to_screen(std::string display_string) {
     this->console.write_at_cursor(display_string);
 } //TODO remove this function, its just for debugging for now!
 
-CoreEvent Display::hand_off_event_sync(CoreDataEvent event) {
-    if (event.event_id == "display_content_update") {
-        this->reset_screen();
-        this->write_string_to_screen();
-    }
-}
-
 Display::Display() {
     
 }
 
-std::vector<std::string> Display::get_events() {
-    std::vector<std::string> result;
+CoreEvent Display::hand_off_event_sync(CoreEvent event) {
+    return {"display", "blank"};
+}
+
+CoreEvent Display::hand_off_event_sync(CoreDataEvent event) {
+     return {"display", "blank"};   
 }

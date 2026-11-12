@@ -55,8 +55,8 @@ public:
     virtual CoreEvent hand_off_event_sync(CoreDataEvent) = 0;
 
     //TODO async methods
-    virtual void hand_off_event_async(CoreEvent) = 0;
-    virtual void hand_off_event_async(CoreDataEvent) = 0;
+    //virtual void hand_off_event_async(CoreEvent) = 0;
+    //virtual void hand_off_event_async(CoreDataEvent) = 0;
     bool is_busy();
 
     std::vector<std::string> get_incoming_events();
