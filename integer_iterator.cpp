@@ -3,12 +3,12 @@
 #include <array>
 #include <iostream>
 
-static constexpr std::array incoming_events_decl {
-    std::string_view{"counter;update"}
+std::array incoming_events_decl {
+    std::string{"counter;update"}
 };
 
-static constexpr std::array outgoing_events_decl {
-    std::string_view{"counter;updated"}
+std::array outgoing_events_decl {
+    std::string{"counter;updated"}
 };
 
 CoreModule::CoreModule() {
