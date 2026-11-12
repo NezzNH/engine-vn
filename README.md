@@ -16,7 +16,7 @@ This project is my very first of something even remotely approaching this size, 
 
 At the core of this project is the idea that a programs running can be modified at runtime. This concept is by no means original, and in fact many modern game engines run this way.
 
-The idea borrows a little from real life cities. Cities are organized as sprawls of roads that connect buildings together. To roads, the only thing that matters is the size of buildings, they have no knowledge of their inner workings. They understand that the buildings accept different cargo (some accept trucks, others take people, some both), and that's all they care about.
+The idea borrows from real cities. Cities are organized as a network of roads that connect buildings together. To said roads, the only thing that matters is the size of buildings, and thus they have no knowledge of their inner workings. They understand that the buildings accept different cargo (some accept trucks, others take people, some both), and that's all they care about.
 
 That's why the workings of a city do not significantly change if one of the buildings close down, remodel or change purpose. The roads and cars trudge on just the same.
 
@@ -25,7 +25,7 @@ This is, in esssence, what this framework is trying to achieve.
 Its built of 2 main components:
 ### Core
 
-This is the largely inflexible part of the architecture. It's entire job is:
+This is the largely inflexible part of the architecture. Its entire job is:
 - Tracking the state of the entire program
 - Making sure appopriate CoreModules exist and have appropriate memory access
 - Accepts CoreEvents and routes them according to certain rules to CoreQueues
