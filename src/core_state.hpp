@@ -11,8 +11,8 @@
 #include <vector>
 
 struct CoreState {
- //   CoreModuleRegistry modules;
-    CoreEventQueueIndex event_queues;
+    std::vector<CoreModuleRegister> core_modules;
+    std::vector<CoreEventQueueRegister> event_queues;
     std::string name, state_id;
 };
 

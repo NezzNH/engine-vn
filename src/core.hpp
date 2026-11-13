@@ -21,18 +21,16 @@ private:
     CoreStateManager state_manager;
     uint8_t updated_queue; //convert to FIFO for multithreaded support, with associated methods for ease of use
 
-    CoreModuleRegistry core_module_registry;
+    std::vector<CoreModuleRegister> core_module_registry;
     std::vector<CoreModule> core_modules;
 
-    std::vector<CoreEventContext> event_contexts;
-    std::vector<CoreEventQueue> event_queues;
+    std::vector<CoreEventContext> core_events;
+    std::vector<CoreEventQueue> core_event_queues;
 
     uint8_t core_data_spaces_limit;
     std::vector<CoreDataSpace> data_spaces;
 public:
     Core();
-
-    Core(std::string);
 
     void main_loop();
     void route_event(CoreEvent);
@@ -41,9 +39,6 @@ public:
     void take_core_event(CoreDataEvent);
 
     void register_module(std::string, std::vector<std::string>);
-
-    CoreDataSpace* get_data_space();
-    
 };
 
 #endif

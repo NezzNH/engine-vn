@@ -13,19 +13,10 @@ struct CoreModuleRegister{
     std::string name, description;
 };
 
-class CoreModuleRegistry {
-private:
-    std::vector<CoreModuleRegister> module_registers;
-public:
-    CoreModuleRegistry();
-    
-    bool contains_module_register(std::string);
-    void register_module(std::string, std::vector<std::string>);
-};
-
 class CoreModule {
 private:
     std::string module_id;
+    uint64_t instance_id;
 
     CoreDataSpace* data_space_p;
     std::vector<CoreDataSpaceHeader> data_space_headers;
@@ -61,6 +52,9 @@ public:
 
     std::vector<std::string> get_incoming_events();
     std::vector<std::string> get_outgoing_events();
+
+    uin64_t get_instance_id();
+    void set_instance_id(uint64_t);
 };
 
 #endif

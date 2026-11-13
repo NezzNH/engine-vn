@@ -170,3 +170,10 @@ bool CoreModule::is_subscribed_to_event(CoreDataEvent event) {
 
     return this->is_subscribed_to_event(CoreEvent{event.context_id,event.event_id});
 }
+
+uint64_t CoreModule::get_instance_id() {return this->instance_id;}
+
+void CoreModule::set_instance_id(uint64_t instance_id) {
+    this->instance_id = instance_id;}
+
+
