@@ -53,7 +53,7 @@ public:
     std::vector<std::string> get_incoming_events();
     std::vector<std::string> get_outgoing_events();
 
-    uin64_t get_instance_id();
+    uint64_t get_instance_id();
     void set_instance_id(uint64_t);
 };
 

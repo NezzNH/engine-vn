@@ -9,7 +9,7 @@
 #include <cstdint>
 
 struct CoreEventQueueRegister{
-    std::vector<CoreEventRegister> subscribed_events;
+    CoreEventContextIndex subscribed_events;
     std::vector<CoreModule*> subscribed_modules;
     uint8_t queue_id;
 };
